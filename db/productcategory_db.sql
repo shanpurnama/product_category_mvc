@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 15, 2021 at 04:29 AM
+-- Generation Time: Oct 15, 2021 at 04:33 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 7.4.23
 
@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `productcategory_db`
 --
+CREATE DATABASE IF NOT EXISTS `productcategory_db` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `productcategory_db`;
 
 -- --------------------------------------------------------
 
