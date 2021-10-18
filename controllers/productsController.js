@@ -15,9 +15,23 @@ uuidv4()
 // 	products_categories.product_id = products.product_id
 // AND
 // 	products_categories.category_id = categories.category_id
+
 function getAll (req, res) {
-    
-    productsCategoriesDB.query('SELECT products.product_name AS products, categories.category_name AS category FROM products, categories, products_categories WHERE products_categories.product_id = products.product_id AND products_categories.category_id = categories.category_id', function(err, data){
+    productsCategoriesDB.query(`
+    SELECT
+        products.id,
+        products.product_name,
+        products.price,
+        categories.category_name
+
+    FROM 
+        products, 
+        categories, 
+        products_categories 
+    WHERE 
+        products_categories.product_id = products.id 
+    AND 
+        products_categories.category_id = categories.id`, function(err, data){
         if (err) {
             console.log(err)
         } else {
