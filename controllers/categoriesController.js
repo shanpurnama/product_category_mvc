@@ -1,4 +1,6 @@
 const productsCategoriesDB = require('../models/productCategory')
+const { v4: uuidv4 } = require('uuid');
+// uuidv4()
 
 function getAll(req, res) {
     productsCategoriesDB.query('SELECT * FROM categories', function(err, category) {
@@ -12,7 +14,9 @@ function getAll(req, res) {
 
 
 function create(req, res) {
+    const uuid = uuidv4()
     const data = {
+        category_id: uuid,
         category_name: req.body.category_name
     }
     productsCategoriesDB.query('INSERT INTO categories SET ?', data, function(err) {

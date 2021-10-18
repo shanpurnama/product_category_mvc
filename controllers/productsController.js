@@ -1,13 +1,30 @@
 const productsCategoriesDB = require('../models/productCategory')
+const { v4: uuidv4 } = require('uuid');
+uuidv4()
 
+
+// SELECT 
+//     products.product_name AS 'product',
+//     categories.category_name AS 'category',
+//     products.price
+// FROM
+//     products,
+//     categories,
+//     products_categories
+// WHERE
+// 	products_categories.product_id = products.product_id
+// AND
+// 	products_categories.category_id = categories.category_id
 function getAll (req, res) {
-    productsCategoriesDB.query('SELECT products.product_name, categories.category_name FROM products, categories, products_categories WHERE products_categories.product_id = products.id AND products_categories.category_id = categories.id' , function(err, data){
+    
+    productsCategoriesDB.query('SELECT products.product_name AS products, categories.category_name AS category FROM products, categories, products_categories WHERE products_categories.product_id = products.product_id AND products_categories.category_id = categories.category_id', function(err, data){
         if (err) {
             console.log(err)
         } else {
             res.send(data)
         }
     })
+}
 
     // productsCategoriesDB.query('SELECT * FROM products', function(err, data){
     //     if (err) {
@@ -16,10 +33,11 @@ function getAll (req, res) {
     //         res.send(data)
     //     }
     // })
-}
 
 function create(req, res) {
+    var uuid = uuidv4()
     const dataProducts = {
+        product_id: uuid,
         product_name: req.body.product_name,
         price: req.body.price
     }
@@ -27,7 +45,18 @@ function create(req, res) {
         if (err) {
             console.log(err)
         } else {
-            res.send('success add new product')
+            var data = {
+                id: uuidv4(),
+                product_id: dataProducts.product_id,
+                category_id: req.body.category_id
+            }
+            productsCategoriesDB.query('INSERT INTO products_categories SET ?', data, function(err) {
+                if (err) {
+                    console.log(err)
+                } else {
+                     res.send('success add new product')
+                }
+            })
         }
     })
 }
