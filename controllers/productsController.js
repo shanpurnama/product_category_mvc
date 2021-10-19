@@ -88,9 +88,7 @@ function updateProduct(req, res) {
 
 function remove(req, res) {
     // console.log(req.params.id)
-    var sql = `
-    DELETE FROMproducts 
-    WHERE id = ${req.params.id}`
+    var sql = `DELETE FROMproducts WHERE id = ${req.params.id}`
     productsCategoriesDB.query(sql, function(err){
         if (err) {
             console.log(err)
