@@ -1,6 +1,6 @@
 const productsCategoriesDB = require('../models/productCategory')
 const { v4: uuidv4 } = require('uuid');
-uuidv4()
+
 
 
 // SELECT 
@@ -51,7 +51,7 @@ function getAll (req, res) {
 function create(req, res) {
     var uuid = uuidv4()
     const dataProducts = {
-        product_id: uuid,
+        id: uuid,
         product_name: req.body.product_name,
         price: req.body.price
     }
@@ -61,7 +61,7 @@ function create(req, res) {
         } else {
             var data = {
                 id: uuidv4(),
-                product_id: dataProducts.product_id,
+                product_id: dataProducts.id,
                 category_id: req.body.category_id
             }
             productsCategoriesDB.query('INSERT INTO products_categories SET ?', data, function(err) {
@@ -87,14 +87,17 @@ function updateProduct(req, res) {
 }
 
 function remove(req, res) {
-    productsCategoriesDB.query(`DELETE FROM products WHERE id = ${req.params.id}`, function(err){
+    // console.log(req.params.id)
+    var sql = `
+    DELETE FROMproducts 
+    WHERE id = ${req.params.id}`
+    productsCategoriesDB.query(sql, function(err){
         if (err) {
             console.log(err)
         } else {
-            res.send('success delete')
+            res.send('success delete one product')
         }
     })
-
 }
 
 function getProductsAndCategories(req, res) {

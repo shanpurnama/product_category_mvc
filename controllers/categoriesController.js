@@ -16,7 +16,7 @@ function getAll(req, res) {
 function create(req, res) {
     const uuid = uuidv4()
     const data = {
-        category_id: uuid,
+        id: uuid,
         category_name: req.body.category_name
     }
     productsCategoriesDB.query('INSERT INTO categories SET ?', data, function(err) {
