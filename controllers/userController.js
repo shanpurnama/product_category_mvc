@@ -10,7 +10,7 @@ function getAll(req, res) {
                 message: 'Internal Server Eror'
             })
         } else {
-            res.status(20).json0({
+            res.status(200).json({
                 data, 
                 message: 'OK'
             })
