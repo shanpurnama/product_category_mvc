@@ -1,13 +1,19 @@
 const productsCategoriesDB = require('../models/productCategory')
 const { v4: uuidv4 } = require('uuid')
 const bcrypt = require('bcrypt')
+var jwt = require('jsonwebtoken')
 
 function getAll(req, res) {
     productsCategoriesDB.query('SELECT * FROM users', function(err, data) {
         if (err) {
-            console.log(err)
+            res.status(500).json({
+                message: 'Internal Server Eror'
+            })
         } else {
-            res.send(data)
+            res.status(20).json0({
+                data, 
+                message: 'OK'
+            })
         }
     })
 }
@@ -16,7 +22,9 @@ function create(req, res) {
     var uuid = uuidv4()
     bcrypt.hash(req.body.password, 3, function(err, hash) {
         if (err) {
-            console.log(err)
+            res.status(500).json({
+                message: 'Internal Server Error'
+            })
         } else {
             var userData = {
                 id: uuid,
@@ -25,9 +33,13 @@ function create(req, res) {
             }
             productsCategoriesDB.query('INSERT INTO users SET ?', userData, function(err) {
                 if (err) {
-                    console.log(err)
+                    res.status(500).json({
+                        message: 'Internal Server Error'
+                    })
                 } else {
-                    res.send('success create a new user')
+                    res.status(201).json({
+                        message: 'success create a new user'
+                    })
                 }
             })
         }
@@ -46,16 +58,34 @@ function login(req, res) {
         email : req.body.email
     }
     productsCategoriesDB.query('SELECT * FROM users WHERE ?', dataUser , function(err, data) {
-        // console.log(data[0].email)
         if (err) {
-            console.log(err)
+            res.status(500).json({
+                message: 'Internal Server Error'
+            })
         } else if (data.length === 0) {
-            res.status(400).json()
-            var message = 'cant find the email'
-            console.log(message)
-        } else if (req.body.password === req.body.password) {
-            bcrypt.compare(myPlaintextPassword, hash, function(err, result) {
-                // result == true
+            res.status(404).json({
+                message : 'wrong password / email'
+            })
+        } else {
+            bcrypt.compare(req.body.password, data[0].password, function(err, result) {
+                if (err) {
+                    res.status(500).json({
+                        message: 'Internal Server Error'
+                    })
+                } else if (result === false) {
+                    res.status(404).json({
+                        message: ' wrong password / email'
+                    })
+                } else {
+                    var token = jwt.sign({
+                        email: data[0].email},
+                        'PRIVATE_KEY'
+                    )
+                    res.status(200).json({
+                        message: 'Success login',
+                        token
+                    })
+                }
             });
         } 
     })
