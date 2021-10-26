@@ -19,29 +19,47 @@ function getAll(req, res) {
 }
 
 function create(req, res) {
-    var uuid = uuidv4()
-    bcrypt.hash(req.body.password, 3, function(err, hash) {
+    var data = {
+        email: req.body.email
+    }
+    productsCategoriesDB.query('SELECT * FROM users WHERE ?', data , function(err, data) {
         if (err) {
             res.status(500).json({
                 message: 'Internal Server Error'
             })
+        } else if (data.length > 0) {
+            // console.log('email sudah ada boss')
+            res.status(400).json({
+                message : 'email already used'
+            })
         } else {
-            var userData = {
-                id: uuid,
-                email: req.body.email,
-                password: hash
-            }
-            productsCategoriesDB.query('INSERT INTO users SET ?', userData, function(err) {
+            // console.log('yok bikin email baru')
+            var uuid = uuidv4()
+            bcrypt.hash(req.body.password, 3, function(err, hash) {
                 if (err) {
                     res.status(500).json({
                         message: 'Internal Server Error'
                     })
                 } else {
-                    res.status(201).json({
-                        message: 'success create a new user'
+                    var userData = {
+                        id: uuid,
+                        email: req.body.email,
+                        password: hash
+                    }
+                    productsCategoriesDB.query('INSERT INTO users SET ?', userData, function(err) {
+                        if (err) {
+                            res.status(500).json({
+                                message: 'Internal Server Error'
+                            })
+                        } else {
+                            res.status(201).json({
+                                message: 'success create a new user'
+                            })
+                        }
                     })
                 }
             })
+            
         }
     })
 }
@@ -79,7 +97,7 @@ function login(req, res) {
                 } else {
                     var token = jwt.sign({
                         email: data[0].email},
-                        'PRIVATE_KEY'
+                        process.env.PRIVATE_KEY
                     )
                     res.status(200).json({
                         message: 'Success login',
