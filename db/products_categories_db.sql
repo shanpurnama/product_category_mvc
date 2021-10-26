@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 18, 2021 at 04:39 AM
+-- Generation Time: Oct 26, 2021 at 04:50 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 7.4.23
 
@@ -41,7 +41,8 @@ CREATE TABLE IF NOT EXISTS `categories` (
 
 INSERT INTO `categories` (`id`, `category_name`) VALUES
 ('0d12f9d5-7567-4be8-8961-9f3a538643d7', 'Graduation'),
-('97b54354-77b7-45e1-b187-9e828dace94d', 'School');
+('97b54354-77b7-45e1-b187-9e828dace94d', 'School'),
+('e44a2a10-fd98-420c-9b2a-b9d9849944aa', 'Exercise');
 
 -- --------------------------------------------------------
 
@@ -61,9 +62,9 @@ CREATE TABLE IF NOT EXISTS `products` (
 --
 
 INSERT INTO `products` (`id`, `product_name`, `price`) VALUES
-('c9493ae1-400a-4c3f-bfde-3546378094cb', 'flowers', '500.000'),
-('d6ff57dd-d968-4811-b787-789be183b187', 'Pen', '5000'),
-('d8802a8d-584c-4e43-9232-360e6b70fb56', 'Book', '5000');
+('3195d149-794e-40ea-bb91-144292a61802', 'Diamond', '100.000'),
+('3231cd3e-30b7-40ae-a628-ea2a5d47a103', 'Flowerss', '800.000'),
+('47655e3f-6629-4f44-9faa-4c4caae401aa', 'Flowerss', '800.000');
 
 -- --------------------------------------------------------
 
@@ -85,13 +86,35 @@ CREATE TABLE IF NOT EXISTS `products_categories` (
 --
 
 INSERT INTO `products_categories` (`id`, `product_id`, `category_id`) VALUES
-('05469e88-f028-4195-b387-f9a5938e52ca', 'c9493ae1-400a-4c3f-bfde-3546378094cb', '0d12f9d5-7567-4be8-8961-9f3a538643d7'),
-('15cab5b4-ae5d-4af6-8471-d42120c5d4ab', 'd6ff57dd-d968-4811-b787-789be183b187', '0d12f9d5-7567-4be8-8961-9f3a538643d7'),
-('3f3a55e0-f7f7-42b8-bbaa-c84ca94ed5e1', 'd8802a8d-584c-4e43-9232-360e6b70fb56', '97b54354-77b7-45e1-b187-9e828dace94d'),
-('40034c80-8658-43cb-afe4-d86070f1cadb', '373362ee-b59a-4b9b-86b5-1e290a5933fc', '0d12f9d5-7567-4be8-8961-9f3a538643d7'),
-('4e71dbd0-3248-41e0-9de3-4a54dc3d43e1', 'b5227903-d7f3-4cbc-bf0b-0c8c5d625400', '0d12f9d5-7567-4be8-8961-9f3a538643d7'),
-('7dfb94d4-bada-4ff1-846b-9e7dc44f765a', '6b25e947-28c4-4a81-80f7-408ae30e892b', '0d12f9d5-7567-4be8-8961-9f3a538643d7'),
-('cc835e57-167d-402d-81ab-7d169c8dab78', '3fa0a298-b799-4227-81e8-52f86a3fdc52', '0d12f9d5-7567-4be8-8961-9f3a538643d7');
+('319bf6f3-2b98-4e20-9cc1-b7b6d120b9d2', '3195d149-794e-40ea-bb91-144292a61802', '0d12f9d5-7567-4be8-8961-9f3a538643d7'),
+('4d83abdd-3998-4279-bb15-a371b20c93ac', '3231cd3e-30b7-40ae-a628-ea2a5d47a103', '0d12f9d5-7567-4be8-8961-9f3a538643d7'),
+('765fa664-1f2e-42ef-9385-29408060b81c', '47655e3f-6629-4f44-9faa-4c4caae401aa', '0d12f9d5-7567-4be8-8961-9f3a538643d7'),
+('8095e9b6-7aec-423c-bfc5-f88faac53902', '65a76f8b-38fa-485e-8d15-d65d58a22f10', '0d12f9d5-7567-4be8-8961-9f3a538643d7'),
+('96cd85a6-f784-4a6d-8120-a1859ac0ff8b', '4788bbcf-c9b5-4216-9cce-eafc3c8f7847', '0d12f9d5-7567-4be8-8961-9f3a538643d7'),
+('bb070c34-c72b-41a7-a727-7e8ec5020965', '568714b0-c9ad-4b38-88e3-505bb02b9a54', '0d12f9d5-7567-4be8-8961-9f3a538643d7'),
+('d6f548d0-c931-438a-876c-432657880af9', 'b60efee7-361a-496c-bb36-935ac7a96be9', '97b54354-77b7-45e1-b187-9e828dace94d'),
+('e1d9a72c-030c-41da-9df8-e063b7500fb4', 'c8ff8743-09c5-4041-bf1b-ba9f6cd687b4', '0d12f9d5-7567-4be8-8961-9f3a538643d7');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` varchar(36) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `password` char(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `email`, `password`) VALUES
+('0700ce23-82dd-4624-a0b1-3d7c5fc43146', 'shandy@gmail.com', '$2b$04$.HysrmL1rnmto8GTVzIAWuUt8BlSuZwGe0vaqsyyBvF6eDxLOABT.'),
+('ca43f6d4-cd8f-4335-b6e9-02cd20a8ad9c', 'shanshan@gmail.com', '$2b$04$bmciwlCkI.023TUCPz0cg.l9Qheofn7WYTMMT11LPVVHgEPc4evfO'),
+('952b5dab-f1ad-4070-8aa9-1e0606757c0c', 'user@gmail.com', '$2b$04$P.X7qhPRF.hSO./VzepkneEmwcjRTynQDESId2kqA9pPY0l8E7OV.');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
