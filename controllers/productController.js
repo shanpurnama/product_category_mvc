@@ -50,7 +50,7 @@ function create(req, res) {
             }
             productsCategoriesDB.query('INSERT INTO products_categories SET ?', data, function(err) {
                 if (err) {
-                    res.send(500).json({
+                    res.status(500).json({
                         message: 'internal server Error'
                     })
                 } else {
