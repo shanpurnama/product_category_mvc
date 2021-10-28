@@ -8,15 +8,44 @@ function getAll (req, res) {
         products.product_name,
         products.price,
         categories.category_name
-
     FROM 
         products, 
         categories, 
         products_categories 
     WHERE 
-        products_categories.product_id = products.id 
+        products_categories.product_id = products.id
     AND 
         products_categories.category_id = categories.id`, function(err, data){
+        if (err) {
+            res.status(500).json({
+                message: 'Internal Server Error'
+            })
+        } else {
+            res.status(200).json({
+                data,
+                message: 'OK'
+            })
+        }
+    })
+}
+
+function getByCategory (req, res) {
+    productsCategoriesDB.query(`
+    SELECT
+        products.id,
+        products.product_name,
+        products.price,
+        categories.category_name
+    FROM 
+        products, 
+        categories, 
+        products_categories 
+    WHERE 
+        products_categories.product_id = products.id
+    AND 
+        products_categories.category_id = categories.id
+    AND
+        categories.id = '${req.params.id}'`, function(err, data){
         if (err) {
             res.status(500).json({
                 message: 'Internal Server Error'
@@ -64,10 +93,10 @@ function create(req, res) {
 }
 
 function updateProduct(req, res) {
-    const sql = `UPDATE products SET product_name = '${req.body.product_name}', price = '${req.body.price}' WHERE id = ${req.params.id}`
+    const sql = `UPDATE products SET product_name = '${req.body.product_name}', price = '${req.body.price}' WHERE id = '${req.params.id}'`
     productsCategoriesDB.query(sql, function(err) {
         if (err) {
-            res.send(500).json({
+            res.status(500).json({
                 message: 'internal server Error'
             })
         } else {
@@ -79,10 +108,12 @@ function updateProduct(req, res) {
 }
 
 function remove(req, res) {
-    var sql = `DELETE FROMproducts WHERE id = ${req.params.id}`
+    var sql = `DELETE FROM products WHERE id = '${req.params.id}'`
+    console.log(req.params.id)
     productsCategoriesDB.query(sql, function(err){
         if (err) {
-            res.send(500).json({
+            console.log(err)
+            res.status(500).json({
                 message: 'internal server Error'
             })
         } else {
@@ -99,6 +130,7 @@ module.exports = {
     create,
     updateProduct,
     remove,
+    getByCategory
 }
 
 
